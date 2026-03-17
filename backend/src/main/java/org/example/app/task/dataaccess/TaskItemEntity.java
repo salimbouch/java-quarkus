@@ -8,12 +8,17 @@ import jakarta.persistence.Table;
 
 import org.example.app.general.dataaccess.ApplicationPersistenceEntity;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = "TASK_ITEM")
 public class TaskItemEntity extends ApplicationPersistenceEntity {
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
   private String title;
   private boolean completed;
