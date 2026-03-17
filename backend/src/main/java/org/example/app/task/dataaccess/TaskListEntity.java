@@ -1,6 +1,8 @@
 package org.example.app.task.dataaccess;
 
+import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import org.example.app.general.dataaccess.ApplicationPersistenceEntity;
@@ -18,4 +20,7 @@ public class TaskListEntity extends ApplicationPersistenceEntity {
   }
 
   private String title;
+
+  @OneToMany(mappedBy = "list")
+  private List<TaskListEntity> list;
 }
