@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
+import java.util.List;
+
 @QuarkusTest
 class TaskItemRepositoryTest {
 
@@ -39,4 +41,5 @@ class TaskItemRepositoryTest {
         assertThat(loaded).isNotNull();
         assertThat(loaded.getTitle()).isEqualTo("Milk");
     }
+
 }

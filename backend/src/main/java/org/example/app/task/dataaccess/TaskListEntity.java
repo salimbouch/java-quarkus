@@ -21,5 +21,5 @@ public class TaskListEntity extends ApplicationPersistenceEntity {
   private String title;
 
   @OneToMany(mappedBy = "list")
-  private List<TaskItemEntity> ItemList;
+  private List<TaskItemEntity> items;
 }
