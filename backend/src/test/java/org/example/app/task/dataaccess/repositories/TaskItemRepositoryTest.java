@@ -1,30 +1,42 @@
 package org.example.app.task.dataaccess.repositories;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import jakarta.inject.Inject;
 
-import org.assertj.core.api.Assertions;
 import org.example.app.task.dataaccess.TaskItemEntity;
+import org.example.app.task.dataaccess.TaskListEntity;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class TaskItemRepositoryTest extends Assertions {
+class TaskItemRepositoryTest {
 
-  @Inject
-  private TaskItemRepository taskItemRepository;
+    @Inject
+    TaskItemRepository taskItemRepository;
+    @Inject
+    TaskListRepository taskListRepository;
 
-  @Test
-  public void testFindById() {
+    @Test
+    void testFindById() {
 
-    // given
-    Long itemId = 11L;
+        TaskListEntity list = new TaskListEntity();
+        list.setTitle("Groceries");
+        list = taskListRepository.save(list);
 
-    // when
-    TaskItemEntity item = this.taskItemRepository.findById(itemId).get();
+        TaskItemEntity item = new TaskItemEntity();
+        item.setTitle("Milk");
+        item.setCompleted(false);
+        item.setStarred(false);
+        item.setList(list);
 
-    // then
-    assertThat(item.getTitle()).isEqualTo("Milk");
-  }
+        item = taskItemRepository.save(item);
+        Long id = item.getId();
 
+        TaskItemEntity loaded = taskItemRepository.findById(id).orElse(null);
+
+        assertThat(loaded).isNotNull();
+        assertThat(loaded.getTitle()).isEqualTo("Milk");
+    }
 }
