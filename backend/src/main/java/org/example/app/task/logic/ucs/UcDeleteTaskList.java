@@ -5,15 +5,13 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
 
-import org.example.app.task.dataaccess.TaskListEntity;
 import org.example.app.task.dataaccess.repositories.TaskListRepository;
-import org.example.app.task.logic.etos.TaskListEto;
 import org.example.app.task.logic.mapper.TaskListMapper;
 
 @ApplicationScoped
 @Named
 @Transactional
-public class UcFindTaskList {
+public class UcDeleteTaskList {
 
   @Inject
   private TaskListRepository taskListRepository;
@@ -21,10 +19,9 @@ public class UcFindTaskList {
   @Inject
   private TaskListMapper taskListMapper;
 
-  public TaskListEto findById(Long id) {
+  public void deleteTaskList(Long id) {
 
-    TaskListEntity entity = taskListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found: " + id));
-    return taskListMapper.toEto(entity);
+    taskListRepository.deleteById(id);
   }
 
 
