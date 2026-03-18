@@ -7,12 +7,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.example.app.general.dataaccess.ApplicationPersistenceEntity;
+import org.example.app.task.common.TaskItem;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "TASK_ITEM")
-public class TaskItemEntity extends ApplicationPersistenceEntity {
+public class TaskItemEntity extends ApplicationPersistenceEntity implements TaskItem {
 
     @Column(name = "TITLE", nullable = false, length = 64)
     private String title;
