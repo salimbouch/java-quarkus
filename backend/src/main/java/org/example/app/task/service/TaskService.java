@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
@@ -56,5 +57,14 @@ public class TaskService {
       return "Task list deleted";
     }
     throw new NotFoundException("TaskList with id " + id + " does not exist.");
+  }
+
+  @POST
+  @Path("/item/{id}")
+  public void saveTaskItem(TaskItemEto item) {
+
+    if (item.getId() == null) {
+      
+    }
   }
 }
