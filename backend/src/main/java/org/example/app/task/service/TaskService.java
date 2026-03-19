@@ -15,12 +15,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.example.app.task.logic.etos.TaskItemEto;
-import org.example.app.task.logic.etos.TaskListEto;
+import org.example.app.task.logic.tos.TaskItemEto;
+import org.example.app.task.logic.tos.TaskListCto;
+import org.example.app.task.logic.tos.TaskListEto;
 import org.example.app.task.logic.ucs.UcDeleteTaskList;
 import org.example.app.task.logic.ucs.UcFindTaskItem;
 import org.example.app.task.logic.ucs.UcFindTaskList;
 import org.example.app.task.logic.ucs.UcSaveTaskItem;
+import org.example.app.task.logic.ucs.UcSaveTaskList;
 
 @Path("/task")
 public class TaskService {
@@ -36,6 +38,9 @@ public class TaskService {
 
   @Inject
   private UcSaveTaskItem ucSaveTaskItem;
+
+  @Inject
+  private UcSaveTaskList ucSaveTaskList;
 
   @GET
   @Path("/list/{id}")
@@ -96,4 +101,28 @@ public class TaskService {
     }
     return Response.ok().build();
   }
+
+  @POST
+  @Path("/list")
+  public Response saveTaskList(TaskListEto item) {
+
+    this.ucSaveTaskList.save(item);
+    if (item.getId() == null) {
+      return Response.created(URI.create("task/list")).build();
+    }
+    return Response.ok().build();
+  }
+
+  @GET
+  @Path("/list-with-items/{id}")
+  public TaskListCto findTaskListWithItems(@PathParam("id") Long id) {
+
+    TaskListCto cto = this.ucFindTaskList.findWithItems(id);
+    if (cto == null) {
+      throw new NotFoundException("Task List with id " + id + " does not exist.");
+    }
+    return cto;
+  }
+
+  
 }
