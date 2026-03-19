@@ -8,6 +8,11 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.example.app.task.logic.etos.TaskItemEto;
 import org.example.app.task.logic.etos.TaskListEto;
 import org.example.app.task.logic.ucs.UcDeleteTaskList;
@@ -28,7 +33,15 @@ public class TaskService {
 
   @GET
   @Path("/list/{id}")
-  public TaskListEto findTaskList(@PathParam("id") Long id) {
+  @Operation(summary = "Finds task list by id",
+      description = "Find task list by id")
+  @APIResponse(description = "The task list",
+      content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = TaskListEto.class)))
+  @APIResponse(responseCode = "404", description = "Task list not found")
+  public TaskListEto findTaskList(
+      @Parameter(description = "The id of the task list ", required = true)
+      @PathParam("id") Long id) {
 
     TaskListEto task = this.ucFindTaskList.findById(id);
     if (task == null) {
@@ -39,7 +52,15 @@ public class TaskService {
 
   @GET
   @Path("/item/{id}")
-  public TaskItemEto findItemList(@PathParam("id") Long id) {
+  @Operation(summary = "Fetch task item",
+      description = "Fetch a task item")
+  @APIResponse(description = "Task item",
+      content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = TaskItemEto.class)))
+  @APIResponse(responseCode = "404", description = "Task item not found")
+  public TaskItemEto findItemList(
+      @Parameter(description = "The id of the task item to retrieve", required = true)
+      @PathParam("id") Long id) {
 
     TaskItemEto task = this.ucFindTaskItem.findById(id);
     if (task == null) {
