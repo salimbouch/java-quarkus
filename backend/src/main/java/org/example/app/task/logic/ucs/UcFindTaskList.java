@@ -39,8 +39,8 @@ public class UcFindTaskList {
       return null;
     }
     TaskListCto cto = new TaskListCto();
-    cto.setTaskListEto(this.taskListMapper.toEto(entity.get()));
-    cto.setTaskItemEtoList(entity.get().getItems().stream().map(taskItemEntity -> this.taskItemMapper.toEto(taskItemEntity)).toList());
+    cto.setList(this.taskListMapper.toEto(entity.get()));
+    cto.setItems(entity.get().getItems().stream().map(taskItemEntity -> this.taskItemMapper.toEto(taskItemEntity)).toList());
     return cto;
   }
 

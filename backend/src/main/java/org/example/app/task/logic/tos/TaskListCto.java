@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class TaskListCto {
 
-  private TaskListEto taskListEto;
+  private TaskListEto list;
 
-  private List<TaskItemEto> taskItemEtoList;
+  private List<TaskItemEto> items;
 }
