@@ -1,5 +1,6 @@
 package org.example.app.task.service;
 
+import java.net.URI;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -7,6 +8,7 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -18,6 +20,7 @@ import org.example.app.task.logic.etos.TaskListEto;
 import org.example.app.task.logic.ucs.UcDeleteTaskList;
 import org.example.app.task.logic.ucs.UcFindTaskItem;
 import org.example.app.task.logic.ucs.UcFindTaskList;
+import org.example.app.task.logic.ucs.UcSaveTaskItem;
 
 @Path("/task")
 public class TaskService {
@@ -30,6 +33,9 @@ public class TaskService {
 
   @Inject
   private UcFindTaskItem ucFindTaskItem;
+
+  @Inject
+  private UcSaveTaskItem ucSaveTaskItem;
 
   @GET
   @Path("/list/{id}")
@@ -82,10 +88,12 @@ public class TaskService {
 
   @POST
   @Path("/item")
-  public void saveTaskItem(TaskItemEto item) {
+  public Response saveTaskItem(TaskItemEto item) {
 
+    this.ucSaveTaskItem.save(item);
     if (item.getId() == null) {
-
+      return Response.created(URI.create("task/item")).build();
     }
+    return Response.ok().build();
   }
 }
