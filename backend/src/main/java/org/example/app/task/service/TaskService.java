@@ -7,8 +7,10 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
+import org.example.app.task.logic.etos.TaskItemEto;
 import org.example.app.task.logic.etos.TaskListEto;
 import org.example.app.task.logic.ucs.UcDeleteTaskList;
+import org.example.app.task.logic.ucs.UcFindTaskItem;
 import org.example.app.task.logic.ucs.UcFindTaskList;
 
 @Path("/task")
@@ -17,7 +19,11 @@ public class TaskService {
   @Inject
   private UcFindTaskList ucFindTaskList;
 
+  @Inject
   private UcDeleteTaskList ucDeleteTaskList;
+
+  @Inject
+  private UcFindTaskItem ucFindTaskItem;
 
   @GET
   @Path("/list/{id}")
@@ -26,6 +32,17 @@ public class TaskService {
     TaskListEto task = this.ucFindTaskList.findById(id);
     if (task == null) {
       throw new NotFoundException("TaskList with id " + id + " does not exist.");
+    }
+    return task;
+  }
+
+  @GET
+  @Path("/item/{id}")
+  public TaskItemEto findItemList(@PathParam("id") Long id) {
+
+    TaskItemEto task = this.ucFindTaskItem.findById(id);
+    if (task == null) {
+      throw new NotFoundException("TaskItem with id " + id + " does not exist.");
     }
     return task;
   }

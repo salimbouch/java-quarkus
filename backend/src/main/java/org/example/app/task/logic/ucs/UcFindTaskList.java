@@ -23,7 +23,7 @@ public class UcFindTaskList {
 
   public TaskListEto findById(Long id) {
 
-    TaskListEntity entity = taskListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found: " + id));
+    TaskListEntity entity = taskListRepository.findById(id).orElse(null);
     return taskListMapper.toEto(entity);
   }
 
