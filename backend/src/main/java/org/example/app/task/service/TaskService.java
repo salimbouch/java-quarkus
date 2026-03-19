@@ -60,11 +60,11 @@ public class TaskService {
   }
 
   @POST
-  @Path("/item/{id}")
+  @Path("/item")
   public void saveTaskItem(TaskItemEto item) {
 
     if (item.getId() == null) {
-      
+
     }
   }
 }
